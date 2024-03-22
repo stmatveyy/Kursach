@@ -13,19 +13,25 @@ public:
 		possible_directions = 8;
 
 		if (chosen) {
-			x, previous_x = 15;
-			y, previous_y = 15;
+			previous_x = 15;
+			x = 15;
+			previous_y = 15;
+			y = 15;
 		}
 
 		else {
 			srand(time(0));
-			x,previous_x = rand() % 30;
+			previous_x = rand() % 30;
+			x = rand() % 30;
 			srand(time(0));
-			y,previous_y = rand() % 30;
+			previous_y = rand() % 30;
+			y = rand() % 30;
 		}
 	}
 
 	void Move(int direction) override {
+		previous_x = x;
+		previous_y = y;
 		switch (direction)
 		{
 		case 1:
@@ -67,9 +73,11 @@ public:
 		default:
 			throw std::runtime_error("ты че вообще дурак");
 		}
-		previous_x = x;
-		previous_y = y;
+
 	}
+	void Move(int direction, int distance) override {
+		throw std::runtime_error("Нельзя вызвать такой метод");
+	};
 };
 #endif
 

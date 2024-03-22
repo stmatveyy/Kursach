@@ -1,5 +1,6 @@
 ﻿
 #include <iostream>
+#include <Windows.h>
 #include "Arena.h"
 #include "Predator.h"
 #include "Prey.h"
@@ -8,15 +9,25 @@
 
 int main()
 {
-    Arena a;
-    Prey prey(false);
-    Predator pred(true);
 
+    Arena a(30,30);
+    Prey p(true);
+    Predator pred(false);
+    setConsoleColour(3);
+    a.Update(pred, p);
 
     a.Draw();
+
+    pred.Move(4,3);
+    p.Move(3);
+    Sleep(600);
     setCursorPosition(0, 0);
-    a.Update(pred, prey);
+    
+    a.Update(pred,p);
     a.Draw();
+
+    
+    
 
     //setCursorPosition(10, 5);
     //std::cout << "CHEESE";

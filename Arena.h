@@ -15,9 +15,9 @@ private:
 	unsigned int height;
 	char*** data;
 
-	const char* predator_sprite;
-	const char* prey_sprite;
-	const char* empty_sprite;
+	char predator_sprite[3];
+	char prey_sprite[3];
+	char empty_sprite[3];
 
 	void DrawHorisontal() {
 		for (unsigned int j = 0; j < width * 3 + 2; ++j) {
@@ -30,7 +30,8 @@ private:
 
 public:
 
-	Arena() : width(30), height(30), predator_sprite("**"), prey_sprite("()"), empty_sprite("  ") {
+	Arena() : width(30), height(30) {
+
 		data = new char** [height];
 		for (unsigned int i = 0; i < height; ++i) {
 			data[i] = new char* [width];
@@ -48,7 +49,7 @@ public:
 		}
 	}
 
-	Arena(unsigned int width, unsigned int height) : width(30), height(30), predator_sprite("**"), prey_sprite("()"), empty_sprite("  ") {
+	Arena(unsigned int width, unsigned int height) : width(30), height(30), predator_sprite("**"), prey_sprite("()"), empty_sprite("--") {
 
 		data = new char** [height];
 		for (unsigned int i = 0; i < height; ++i) {
@@ -125,18 +126,17 @@ public:
 		UpdateCell(predator_prevX, predator_prevY, empty_sprite);
 		UpdateCell(predator_x, predator_y, predator_sprite);
 
-
 		int prey_prevX = prey.GetPreviousX();
 		int prey_prevY = prey.GetPreviuosY();
 
 		int prey_x = prey.GetX();
 		int prey_y = prey.GetY();
 
-		UpdateCell(prey_prevX, prey_prevY, prey_sprite);
+		UpdateCell(prey_prevX, prey_prevY, empty_sprite);
 		UpdateCell(prey_x, prey_y, prey_sprite);
 	}
 
-	void UpdateCell(int x, int y, const char* sprite) {
+	void UpdateCell(int x, int y, char sprite[3]) {
 		data[y][x][0] = sprite[0];
 		data[y][x][1] = sprite[1];
 	}
