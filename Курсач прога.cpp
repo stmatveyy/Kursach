@@ -1,52 +1,94 @@
-﻿
-#include <iostream>
-#include <Windows.h>
-#include "Arena.h"
-#include "Predator.h"
+﻿#include <iostream>
+#include <conio.h>
 #include "Prey.h"
+#include "Prey.h"
+#include "Arena.h"
 #include "Console_utils.h"
 
 
 int main()
 {
 
-    Arena a(30,30);
-    Prey p(true);
-    Predator pred(false);
-    setConsoleColour(3);
-    a.Update(pred, p);
+	Arena arena(30, 30);
+	Predator predator;
+	Prey prey;
+	unsigned int play_choice;
+	unsigned int dir_choice;
+	bool game_over = false;
+	unsigned int distance;
+	std::cout << "The Chase game.\n Choose your player.\n 1 --- Predator 2 --- Prey\n"; std::cin >> play_choice;
 
-    a.Draw();
+	switch (play_choice)
+	{
+	case 1:
 
-    pred.Move(4,3);
-    p.Move(3);
-    Sleep(600);
-    setCursorPosition(0, 0);
-    
-    a.Update(pred,p);
-    a.Draw();
+		predator.choose(true);
+		prey.choose(false);
+		arena.Update(predator, prey);
+		setCursorPosition(0, 0);
+		arena.Draw();
 
-    
-    
+		while (!game_over)
+		{
+			dir_choice = _getch();
+			switch (dir_choice)
+			{
+			case 'w': dir_choice = 1;break; 
+			case 'd': dir_choice = 2; break; 
+			case 'x': dir_choice = 3; break;
+			case 'a': dir_choice = 4; break;
+			default: break;
+			}
+			setCursorPosition(35, 35);
+			std::cout << "Distance: "; std::cin >> distance;
 
-    //setCursorPosition(10, 5);
-    //std::cout << "CHEESE";
-    //setCursorPosition(10, 5);
-    //std::cout << 'W';
-    //setCursorPosition(10, 9);
-    //std::cout << 'Z';
-    //setCursorPosition(10, 5);
-    //std::cout << "     ";  // Overwrite characters with spaces to "erase" them
-    //std::cout.flush();
-    //const unsigned short DARK_BLUE = BACKGROUND_GREEN | BACKGROUND_INTENSITY;
-    //const unsigned short BRIGHT_BLUE = FOREGROUND_BLUE | FOREGROUND_INTENSITY;
+			predator.Move(dir_choice, distance);
+			
+			setCursorPosition(0, 0);
+			prey.moveRandomly();
+			arena.Update(predator, prey);
+			arena.Draw();
+			game_over = predator.CalculateDistance(prey) < 2.0;
+		}
+		setCursorPosition(0, 0);
+		std::cout << "You win!";
 
-    //setConsoleColour(DARK_BLUE);
-    //std::cout << "Hello ";
-    //setConsoleColour(BRIGHT_BLUE);
-    //std::cout << "world";
+	case 2:
 
-    //std::cout << "!" << std::endl;
+		predator.choose(false);
+		prey.choose(true);
+		arena.Update(predator, prey);
+		setCursorPosition(0, 0);
+		arena.Draw();
 
-    
+		while (!game_over)
+		{
+			dir_choice = _getch();
+			switch (dir_choice)
+			{
+			case 'w': dir_choice = 1; break;
+			case 'e': dir_choice = 2; break;
+			case 'd': dir_choice = 3; break;
+			case 'c': dir_choice = 4; break;
+			case 'x': dir_choice = 5; break;
+			case 'z': dir_choice = 6; break;
+			case 'a': dir_choice = 7; break;
+			case 'q': dir_choice = 8; break;
+			default: break;
+			}
+
+			prey.Move(dir_choice);
+
+			
+			predator.moveTowards(prey);
+			setCursorPosition(0, 0);
+			arena.Update(predator, prey);
+			arena.Draw();
+			game_over = predator.CalculateDistance(prey) < 2.0;
+		}
+		setCursorPosition(0, 0);
+		std::cout << "You lose!";
+	default:
+		break;
+	}
 }

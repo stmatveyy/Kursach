@@ -9,12 +9,13 @@ protected:
 	int previous_x;
 	int previous_y;
 public:
+	
 	int CalculateDistance(Point2D& other) {
-		return std::sqrt(pow((other.x - x), 2) - pow((other.y - y), 2));
+		return std::sqrt(pow((other.x - x), 2) + pow((other.y - y), 2));
 	}
 
-	int GetX() { return x; }
-	int GetY() { return y; }
+	int GetX() const { return x; }
+	int GetY() const { return y; }
 
 	int GetPreviousX() { return previous_x; }
 	int GetPreviuosY() { return previous_y; }

@@ -30,7 +30,7 @@ private:
 
 public:
 
-	Arena() : width(30), height(30) {
+	Arena() : width(30), height(30), predator_sprite("**"), prey_sprite("()"), empty_sprite("--") {
 
 		data = new char** [height];
 		for (unsigned int i = 0; i < height; ++i) {
@@ -117,23 +117,31 @@ public:
 
 	void Update(Predator predator, Prey prey) {
 
+		bool predator_in_bounds = predator.GetX() < 30 && predator.GetY() < 30 && predator.GetX() >0 && predator.GetY() > 0;
+		bool prey_in_bounds = prey.GetX() < 30 && prey.GetY() < 30 && prey.GetX() >= 0 && prey.GetY() > 0;
+
 		int predator_prevX = predator.GetPreviousX();
 		int predator_prevY = predator.GetPreviuosY();
 
 		int predator_x = predator.GetX();
 		int predator_y = predator.GetY(); // Получаем все позиции: и предыдущие, и следующие
 
-		UpdateCell(predator_prevX, predator_prevY, empty_sprite);
-		UpdateCell(predator_x, predator_y, predator_sprite);
-
+		if (predator_in_bounds) {
+			UpdateCell(predator_prevX, predator_prevY, empty_sprite);
+			UpdateCell(predator_x, predator_y, predator_sprite);
+		}
+		
 		int prey_prevX = prey.GetPreviousX();
 		int prey_prevY = prey.GetPreviuosY();
 
 		int prey_x = prey.GetX();
 		int prey_y = prey.GetY();
-
-		UpdateCell(prey_prevX, prey_prevY, empty_sprite);
-		UpdateCell(prey_x, prey_y, prey_sprite);
+		
+		if (prey_in_bounds) {
+			UpdateCell(prey_prevX, prey_prevY, empty_sprite);
+			UpdateCell(prey_x, prey_y, prey_sprite);
+		}
+		
 	}
 
 	void UpdateCell(int x, int y, char sprite[3]) {
