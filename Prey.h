@@ -36,7 +36,10 @@ public:
 	void Move(int direction) override {
 		previous_x = x;
 		previous_y = y;
-		if (x >= 30 || x < 0 || y >= 30 || y < 0) {}
+		if (x >= 30 || x < 0 || y >= 30 || y < 0) {
+			x = previous_x;
+			y = previous_y;
+		}
 		else {
 
 			switch (direction)

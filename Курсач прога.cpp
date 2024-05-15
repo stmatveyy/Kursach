@@ -13,7 +13,7 @@ int main()
 	Predator predator;
 	Prey prey;
 	unsigned int play_choice;
-	unsigned int dir_choice;
+	char dir_choice = ' ';
 	bool game_over = false;
 	unsigned int distance;
 	std::cout << "The Chase game.\n Choose your player.\n 1 --- Predator 2 --- Prey\n"; std::cin >> play_choice;
